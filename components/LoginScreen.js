@@ -9,21 +9,57 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
- 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
- 
+import axios from 'axios';
+import jwtDecode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { loginAction , setRoleAction , setIdAction } from "../actions/authActions";
+
+// import {Link} from 'react-router-dom'
+const Login = ({ navigation }) => {
+
+ const [data , setData] = useState({
+  email : "",
+  password : ""
+});
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleEmail = (e) => {
+    setData({ ...data, email: e });
+  };
+  const dispatch = useDispatch();
+
+  const login =(data)=> {
+   return axios.post(`http://192.168.137.1:3030/api/signin`, data);
+ }
+
+  const handlePassword = (e) => {
+    setData({ ...data,password: e });
+  };
+
+  const handleSubmit =()=> {
+    login(data).then((response) => {
+      console.log(response);
+      (async () => {
+        console.log(response.data.token)
+        await dispatch(loginAction());
+        await dispatch(setRoleAction(jwtDecode(response.data.token).role));
+        await dispatch(setIdAction(jwtDecode(response.data.token)._id));
+      })()
+      navigation.navigate('Cards')
+    }).catch((err) => console.log('err',err.response));
+    setSubmitted(true);
+  };
   return (
     <View style={styles.container}>
  <Image style={styles.image} source={require("../assets/logo.jpg")} />
-      <StatusBar style="auto" />
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="Enter Your Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          email={data.email}
+          onChangeText={handleEmail}
         />
       </View>
  
@@ -33,7 +69,8 @@ export default function Login() {
           placeholder="Enter Your Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          password={data.password}
+          onChangeText={handlePassword}
         />
       </View>
  
@@ -41,12 +78,13 @@ export default function Login() {
         <Text style={styles.forgot_button}>Forgot Password ?</Text>
       </TouchableOpacity>
  
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity onPress={handleSubmit} style={styles.loginBtn}>
+        <Text style={styles.loginText}>LOGIN </Text>
       </TouchableOpacity>
     </View>
   );
 }
+export default Login;
  
 const styles = StyleSheet.create({
   container: {
@@ -69,20 +107,17 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
   },
- 
   TextInput: {
     height: 50,
     flex: 1,
     padding: 10,
     marginLeft: 20,
   },
- 
   forgot_button: {
     height: 30,
     marginBottom: 30,
     color:'white'
   },
- 
   loginBtn: {
     width: "80%",
     borderRadius: 25,
@@ -92,4 +127,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     backgroundColor: "#FF8000",
   },
+  forgot_button:{
+    color:'#ff8000'
+  }
 });

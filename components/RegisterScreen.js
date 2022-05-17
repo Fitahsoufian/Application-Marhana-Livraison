@@ -9,12 +9,48 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
+import axios from 'axios'
+import {showErrMsg, showSuccessMsg} from '../components/utils/notifications/notifications'
+export default function SingUp({navigation}) {
+  const[name , setName]= useState("")
+  const[email , setEmail]= useState("")
+  const[password , setPassword]= useState("")
+  const [number, setNumber] = useState('')
+  const [success, setSuccess] = useState('')
+
+
+
+  const handleName = (e)=>{
+    return setName(e)
+  }
  
-export default function Login() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [number, setNumber] = useState("");
+  const handleEmail = (e)=>{
+    return setEmail(e)
+  }
+  const handlePassword = (e)=>{
+    return setPassword(e)
+  }
+  const handleNumber = (e)=>{
+    return setNumber(e)
+  }
+  const API_URL = 'http://192.168.137.1:3030/api/signup';
+  const regesterHandler = async ()=>{
+    const 
+    _user={
+     name,
+      email,
+      password,
+      number
+    }
+   try {
+     const result = await axios.post(API_URL , _user)
+     console.log(result)
+     setSuccess(result.data.msg)
+     navigation.navigate('Login')
+   } catch (error) {
+     console.log(error)
+   }
+  }
  
   return (
     <View style={styles.container}>
@@ -25,7 +61,7 @@ export default function Login() {
           style={styles.TextInput}
           placeholder="Enter Your Name"
           placeholderTextColor="#003f5c"
-          onChangeText={(name) => setName(name)}
+          onChangeText={handleName}
         />
       </View>
       <View style={styles.inputView}>
@@ -33,7 +69,7 @@ export default function Login() {
           style={styles.TextInput}
           placeholder="Enter Your Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={handleEmail}
         />
       </View>
  
@@ -43,7 +79,7 @@ export default function Login() {
           placeholder="Enter Your Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={handlePassword}
         />
       </View>
       <View style={styles.inputView}>
@@ -51,16 +87,15 @@ export default function Login() {
           style={styles.TextInput}
           placeholder="Enter Your Number"
           placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setNumber(password)}
+          onChangeText={handleNumber}
         />
       </View>
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password ?</Text>
       </TouchableOpacity>
  
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity style={styles.loginBtn} onPress={regesterHandler}>
+        <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
     </View>
   );
@@ -110,4 +145,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     backgroundColor: "#FF8000",
   },
+  forgot_button:{
+    color:'#ff8000'
+  }
 });
