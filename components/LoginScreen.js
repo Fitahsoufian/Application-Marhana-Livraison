@@ -14,7 +14,7 @@ import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { loginAction , setRoleAction , setIdAction } from "../actions/authActions";
 
-// import {Link} from 'react-router-dom'
+
 const Login = ({ navigation }) => {
 
  const [data , setData] = useState({

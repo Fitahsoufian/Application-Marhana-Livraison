@@ -11,7 +11,7 @@ const LeftContent = props => <Avatar.Icon {...props} icon="food" style={styles.i
 const AppURL = "http://192.168.137.1:3030/api";
 
 
-const MyComponent = () => {
+const MyComponent = ({navigation}) => {
 
   const [repas, setRepas] = React.useState([])
   
@@ -30,19 +30,19 @@ const MyComponent = () => {
       <ScrollView>
       {repas.map(repa =>(
         <Card style={styles.container}>
-          <Card.Title style={styles.header} title="MEALS" titleStyle={{ color: "#fff" }} subtitle="Restaurant MARHABA" subtitleStyle={{ color:'#808080' }} left={LeftContent}/>
-          <Card.Content>
-            <Title style={styles.title}>{repa.name}</Title>
-            <Paragraph style={styles.title}>{repa.description}</Paragraph>
-          </Card.Content>
-          <Card.Cover source={{uri: "http://192.168.137.1:3030/images/"+repa.image }} />
-          <Card.Actions>
-          <TouchableOpacity style={styles.btn}>
-              <Text style={styles.text}>Order Now</Text>
-            </TouchableOpacity>
-            <Paragraph style={styles.title}>{repa.prix} DH</Paragraph>
-          </Card.Actions>
-        </Card>
+        <Card.Title style={styles.header} title="MEALS" titleStyle={{ color: "#fff" }} subtitle="Restaurant MARHABA" subtitleStyle={{ color:'#808080' }} left={LeftContent}/>
+        <Card.Content>
+          <Title style={styles.title}>{repa.name}</Title>
+          <Paragraph style={styles.title}>{repa.description}</Paragraph>
+        </Card.Content>
+        <Card.Cover source={{uri: "http://192.168.137.1:3030/images/"+repa.image }} />
+        <Card.Actions>
+        <TouchableOpacity style={styles.btn}>
+            <Text style={styles.text}>Order Now</Text>
+          </TouchableOpacity>
+          <Paragraph style={styles.title}>{repa.prix} DH</Paragraph>
+        </Card.Actions>
+      </Card>
       ))
       }
       </ScrollView>

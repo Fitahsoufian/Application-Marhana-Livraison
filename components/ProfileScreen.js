@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 
 export default function Profile({ navigation }) {
-
-  
     return (
       <View style={styles.container}>
           <View style={styles.header}></View>
@@ -23,7 +21,7 @@ export default function Profile({ navigation }) {
                 <Text style={styles.options} >Meals</Text>  
               </TouchableOpacity>              
               <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.options}>Meal Of Day</Text> 
+                <Text style={styles.options}onPress={() => navigation.navigate('Dashboard')}>Dashboard</Text> 
               </TouchableOpacity>
             </View>
         </View>

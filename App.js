@@ -13,7 +13,8 @@ import HomeScreen from './components/HomeScreen';
 import LoginScreen from './components/LoginScreen';
 import RegisterScreen from './components/RegisterScreen';
 import ProfileScreen from './components/ProfileScreen';
-import CardsScreen from './components/CardScreen'
+import CardsScreen from './components/CardScreen';
+import DashboardScreen from './components/DashboardScreen';
 
 const Stack = createNativeStackNavigator();
 const persistedReducer = persistReducer({key: 'persist-key', storage: AsyncStorage }, allReducers);
@@ -35,6 +36,7 @@ function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Cards" component={CardsScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
       </Stack.Navigator>
     </NavigationContainer>
      </PersistGate>
